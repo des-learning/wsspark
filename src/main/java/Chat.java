@@ -21,19 +21,27 @@ public class Chat {
         init();
     }
 
-    public static void broadcastMessage(String sender, String message) {
+    public static void broadcastMessage(Session session, String sender, String message) {
         JSONObject jsonPayload = new JSONObject()
-                .put("userMessage", createHtmlMessageFromSender(sender, message))
-                //.put("userMessage", createJsonMessageFromSender(sender, message))
+                //.put("userMessage", createHtmlMessageFromSender(sender, message))
+                .put("userMessage", createJsonMessageFromSender(sender, message))
                 .put("userList", userUserNameMap.values());
 
-        userUserNameMap.keySet().stream().filter(Session::isOpen).forEach(session -> {
+        userUserNameMap.keySet().stream().filter(x -> x == session).forEach(s -> {
             try {
                 session.getRemote().sendString(String.valueOf(jsonPayload));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
+        /*userUserNameMap.keySet().stream().filter(Session::isOpen).forEach(session -> {
+            try {
+                session.getRemote().sendString(String.valueOf(jsonPayload));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });*/
     }
 
     public static String createHtmlMessageFromSender(String sender, String message) {

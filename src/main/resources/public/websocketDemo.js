@@ -1,9 +1,9 @@
 var websocket = new WebSocket("ws://" + location.hostname + ":" + location.port + "/chat/")
-var game = new WebSocket("ws://" + location.hostname + ":" + location.port + "/game/")
+/*var game = new WebSocket("ws://" + location.hostname + ":" + location.port + "/game/")
 game.onmessage = function(msg) {
     var data = JSON.parse(msg.data)
     alert("Joined as player " + data.player)
-}
+}*/
 websocket.onmessage = function (msg) { updateChat(msg) }
 websocket.onclose = function () { alert("Websocket connection closed") }
 
@@ -33,7 +33,7 @@ function updateChat(msg) {
 }
 
 function insert(targetId, message) {
-    /*b = document.createElement("b")
+    b = document.createElement("b")
     b.innerHTML = message.from + " says:"
     p = document.createElement("p")
     p.innerHTML = message.message
@@ -44,8 +44,8 @@ function insert(targetId, message) {
     article.appendChild(b)
     article.appendChild(p)
     article.appendChild(span)
-    id(targetId).insertAdjacentElement("afterbegin", article)*/
-    id(targetId).insertAdjacentHTML("afterbegin", message)
+    id(targetId).insertAdjacentElement("afterbegin", article)
+    //id(targetId).insertAdjacentHTML("afterbegin", message)
 }
 
 function id(id) {
